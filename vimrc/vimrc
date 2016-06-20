@@ -464,6 +464,8 @@ Plugin 'walm/jshint.vim'
 Plugin 'einars/js-beautify'
 Plugin 'maksimr/vim-jsbeautify'
 
+Plugin 'mxw/vim-jsx'
+
 " CoffeeScript
 Plugin 'kchmck/vim-coffee-script'
 

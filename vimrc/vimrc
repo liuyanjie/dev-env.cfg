@@ -56,6 +56,11 @@ try
 catch
 endtry
 
+" 错误跳转
+map <leader>lp :lprevious<cr>
+map <leader>ll :lnext<cr>
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Environment
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -362,15 +367,15 @@ Plugin 'SirVer/ultisnips'                   " 快速插入自定义的代码片�
 Plugin 'msanders/snipmate.vim'              " some of TextMate's snippets features in Vim.
 
 Plugin 'scrooloose/syntastic'               " 语法检查引擎
-set statusline+=%*
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['eslint']
+" A. Vim provides several built-in commands for this. See :help :lnext and :help :lprevious.
 
 Plugin 'scrooloose/nerdcommenter'           " 快速批量注释
 " [count]<leader>cc |NERDComComment|
@@ -456,6 +461,9 @@ Plugin 'plasticboy/vim-markdown'            " Markdown
 Plugin 'moll/vim-node'
 Plugin 'jamescarr/snipmate-nodejs'
 Plugin 'sidorares/node-vim-debugger'
+
+" SQL
+Plugin 'vim-scripts/SQLComplete.vim'
 
 " JavaScript
 Plugin 'pangloss/vim-javascript'

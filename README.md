@@ -34,12 +34,14 @@ ln -s ${PWD}/dev-env.cfg/powerline.conf/powerline.conf ~/.powerline.conf
 
 ### powerline-fonts
 
+http://cenalulu.github.io/linux/mac-powerline/
+
 ```sh
 git clone https://github.com/powerline/fonts.git
 cd fonts
 ./install.sh
 ```
-安装完成后就可以在`iTerm2`或者`Terminal`的字体选项里看到并选择多个xxx for powerline的字体了。 
+安装完成后就可以在`iTerm2`或者`Terminal`的字体选项里看到并选择多个xxx for powerline的字体了。
 
 **注意：对于ASCII fonts和non-ASCII fonts都需要选择for powerline的字体。**
 
@@ -51,8 +53,6 @@ Refs:
 ```sh
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 ```
-
-http://cenalulu.github.io/linux/mac-powerline/
 
 
 ### Chrome

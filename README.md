@@ -21,13 +21,14 @@ ln -s ${PWD}/dev-env.cfg/tmuxrc/tmux.conf ~/.tmux.conf
 * powerline
 
 ```sh
+sudo apt install powerline
 pip install powerline-status
 pip show powerline-status
 
-echo "\n" >> ~/.bash_rc
-echo "\n" >> ~/.bash_profile
-echo ". /Library/Python/2.7/site-packages/powerline/bindings/bash/powerline.sh" >> ~/.bash_rc
-echo ". /Library/Python/2.7/site-packages/powerline/bindings/bash/powerline.sh" >> ~/.bash_profile
+echo -e "\n" >> ~/.bash_rc
+echo -e "\n" >> ~/.bash_profile
+echo "./.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh" >> ~/.bash_rc
+echo "./.local/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh" >> ~/.bash_profile
 
 ln -s ${PWD}/dev-env.cfg/powerline.conf/powerline.conf ~/.powerline.conf
 ```

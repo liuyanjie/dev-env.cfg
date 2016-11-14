@@ -1,12 +1,4 @@
-"=====================================================================================
-"
-" Description: .vimrc
-"
-" Last Change: 2016.05.03
-"
-" Version: 5.0
-"
-"=====================================================================================
+" .vimrc
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " KeyMap
@@ -64,7 +56,7 @@ map <leader>ll :lnext<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Environment
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set helplang =cn
+set helplang=cn
 let helptags = $VIMFILES.'/doc'
 let $VIMFILES = $HOME.'/.vim'
 let $VIMRCFILES = $HOME.'/.vimrc'
@@ -73,7 +65,7 @@ autocmd bufwritepost .vimrc source $VIMRCFILES
 set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,gbk2312,gbk,big5,euc-jp,euc-kr,latin1
+set fileencodings=utf-8,ucs-bom,cp936,gb18030,gbk2312,gbk,big5,euc-jp,euc-kr,latin1
 let $LANG = 'zh_CN.UTF-8'
 set langmenu=zh_CN
 set imcmdline
@@ -178,23 +170,25 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'gmarik/Vundle.vim'           " usage: :PluginInstall OR vim +PluginInstall +qall
+" usage: :PluginInstall OR vim +PluginInstall +qall
+Plugin 'gmarik/Vundle.vim'
 
-Plugin 'scrooloose/nerdtree'         " A tree explorer plugin for vim.
+" A tree explorer plugin for vim.
+Plugin 'scrooloose/nerdtree'
 let NERDTreeMinimalUI=1
 let NERDTreeQuitOnOpen=0
 let NERDTreeDirArrows=1
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=0
-let NERDTreeShowBookmarks=1
 
 " How can I change default arrows?
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 
 " How can I open a NERDTree automatically when vim starts up if no files were specified?
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
 " How can I close vim if the only window left open is a NERDTree?
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
@@ -222,44 +216,8 @@ call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
 call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
 call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
 
-" key bindings
-" o       在已有窗口中打开文件、目录或书签，并跳到该窗口
-" go      在已有窗口 中打开文件、目录或书签，但不跳到该窗口
-" t       在新 Tab 中打开选中文件/书签，并跳到新 Tab
-" T       在新 Tab 中打开选中文件/书签，但不跳到新 Tab
-" i       split 一个新窗口打开选中文件，并跳到该窗口
-" gi      split 一个新窗口打开选中文件，但不跳到该窗口
-" s       vsplit 一个新窗口打开选中文件，并跳到该窗口
-" gs      vsplit 一个新 窗口打开选中文件，但不跳到该窗口
-" !       执行当前文件
-" O       递归打开选中 结点下的所有目录
-" x       合拢选中结点的父目录
-" X       递归 合拢选中结点下的所有目录
-" e       Edit the current dif
-" 双击    相当于 NERDTree-o
-" 中键    对文件相当于 NERDTree-i，对目录相当于 NERDTree-e
-" D       删除当前书签
-" P       跳到根结点
-" p       跳到父结点
-" K       跳到当前目录下同级的第一个结点
-" J       跳到当前目录下同级的最后一个结点
-" k       跳到当前目录下同级的前一个结点
-" j       跳到当前目录下同级的后一个结点
-" C       将选中目录或选中文件的父目录设为根结点
-" u       将当前根结点的父目录设为根目录，并变成合拢原根结点    
-" U       将当前根结点的父目录设为根目录，但保持展开原根结点
-" r       递归刷新选中目录
-" R       递归刷新根结点
-" m       显示文件系统菜单
-" cd      将 CWD 设为选中目录
-" I       切换是否显示隐藏文件
-" f       切换是否使用文件过滤器
-" F       切换是否显示文件
-" B       切换是否显示书签
-" q       关闭 NerdTree 窗口
-" ?       切换是否显示 Quick Help
-
-Plugin 'jistr/vim-nerdtree-tabs'            " NERDTree and tabs together in Vim, painlessly
+" NERDTree and tabs together in Vim, painlessly
+Plugin 'jistr/vim-nerdtree-tabs'
 let g:nerdtree_tabs_open_on_gui_startup=1 "(default: 1)
 let g:nerdtree_tabs_open_on_console_startup=0 "(default: 0)
 let g:nerdtree_tabs_no_startup_for_diff=1 "(default: 1)
@@ -273,7 +231,8 @@ let g:nerdtree_tabs_focus_on_files=0 "(default: 0)
 let g:nerdtree_tabs_startup_cd=1 "(default: 1)
 let g:nerdtree_tabs_autofind=1 "default: 0
 
-Plugin 'Xuyuanp/nerdtree-git-plugin'      " A plugin of NERDTree showing git status
+" A plugin of NERDTree showing git status
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
     \ "Staged"    : "✚",
@@ -286,28 +245,36 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
-Plugin 'majutsushi/tagbar'                  " Tagbar: a class outline viewer for Vim. better then taglist.
+" Tagbar: a class outline viewer for Vim. better then taglist.
+Plugin 'majutsushi/tagbar'
 let g:tagbar_iconchars = ['▸', '▾']
 " let g:tagbar_ctags_bin
 " autocmd VimEnter * nested :TagbarOpen
 
-Plugin 'fholgado/minibufexpl.vim'           " Elegant buffer explorer - takes very little screen space
-Plugin 'powerline/powerline',{'rtp': 'powerline/bindings/vim/'} " Powerline is a statusline plugin for vim
+" Elegant buffer explorer - takes very little screen space
+Plugin 'fholgado/minibufexpl.vim'
 
-Plugin 'xolox/vim-misc'                     " Miscellaneous auto-load Vim scripts
-Plugin 'xolox/vim-easytags'                 " Automated tag file generation and syntax highlighting of tags in Vim.
-let g:easytags_auto_update = 0
-let g:easytags_auto_highlight = 0
-" :UpdateTags
-" :HighlightTags
+" Powerline is a statusline plugin for vim
+Plugin 'powerline/powerline',{'rtp': 'powerline/bindings/vim/'}
 
-Plugin 'mru.vim'                            " 最近使用文件
+" Miscellaneous auto-load Vim scripts
+" Plugin 'xolox/vim-misc'
+" Automated tag file generation and syntax highlighting of tags in Vim.
+" Plugin 'xolox/vim-easytags'
+" let g:easytags_auto_update = 0
+" let g:easytags_auto_highlight = 0
+" " :UpdateTags
+" " :HighlightTags
+
+" 最近使用文件
+Plugin 'mru.vim'
 map <leader>m :MRU<cr>
 let MRU_Max_Menu_Entries = 20
 let MRU_Max_Submenu_Entries = 20
 let MRU_Window_Height = 15
 
-Plugin 'benmills/vimux'                     " vim plugin to interact with tmux
+" vim plugin to interact with tmux
+Plugin 'benmills/vimux'
 let g:VimuxHeight = 30
 nmap <space>p :VimuxPromptCommand<cr>
 nmap <space>q :VimuxCloseRunner<cr>
@@ -315,15 +282,26 @@ nmap <space>l :VimuxRunLastCommand<cr>
 nmap <space>x :VimuxInterruptRunner<cr>
 nmap <space>r :call VimuxRunCommand(runapp)<cr>
 
-Plugin 'christoomey/vim-tmux-navigator'     "  Seamless navigation between tmux panes and vim splits
+"  Seamless navigation between tmux panes and vim splits
+Plugin 'christoomey/vim-tmux-navigator'
 
-" Plugin 'MattesGroeger/vim-bookmarks'      " This vim plugin allows toggling bookmarks per line.
-Plugin 'kien/rainbow_parentheses.vim'       " Better Rainbow Parentheses
-Plugin 'Raimondi/delimitMate'               " Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
-" Plugin 'jiangmiao/auto-pairs'               " Vim plugin, insert or delete brackets, parens, quotes in pair
-Plugin 'tpope/vim-surround'                 " surround.vim: quoting/parenthesizing made simple
+" This vim plugin allows toggling bookmarks per line.
+" Plugin 'MattesGroeger/vim-bookmarks'
 
-Plugin 'Yggdroot/indentLine'                " A vim plugin to display the indention levels with thin vertical lines
+" Better Rainbow Parentheses
+Plugin 'kien/rainbow_parentheses.vim'
+
+" Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
+Plugin 'Raimondi/delimitMate'
+
+" Vim plugin, insert or delete brackets, parens, quotes in pair
+" Plugin 'jiangmiao/auto-pairs'
+
+" surround.vim: quoting/parenthesizing made simple
+Plugin 'tpope/vim-surround'
+
+" A vim plugin to display the indention levels with thin vertical lines
+Plugin 'Yggdroot/indentLine'
 let g:indentLine_color_term = 239           " Vim
 let g:indentLine_color_gui = '#A4E57E'      " GVim
 let g:indentLine_color_tty_light = 7        " (default: 4)
@@ -333,40 +311,68 @@ let g:indentLine_conceallevel = 2           " (default 2)
 let g:indentLine_char = '¦'
 let g:indentLine_enabled = 1
 
-Plugin 'tpope/vim-repeat'                   " repeat.vim: enable repeating supported plugin maps with '.'
-Plugin 'junegunn/vim-easy-align'            " A Vim alignment plugin
+" repeat.vim: enable repeating supported plugin maps with '.'
+Plugin 'tpope/vim-repeat'
 
-Plugin 'dkprice/vim-easygrep'       " Fast and Easy Find and Replace Across Multiple Files
+" A Vim alignment plugin
+Plugin 'junegunn/vim-easy-align'
+
+" Fast and Easy Find and Replace Across Multiple Files
+Plugin 'dkprice/vim-easygrep'
 let g:EasyGrepMode = 2
 let g:EasyGrepCommand = 0                   " Use vimgrep:0, grepprg:1
 let g:EasyGrepRecursive  = 1                " Recursive searching
 let g:EasyGrepIgnoreCase = 1                " not ignorecase:0
 let g:EasyGrepFilesToExclude = "*.bak, *~, cscope.*, *.a, *.o, *.pyc"
 
-Plugin 'ctrlpvim/ctrlp.vim'                 " Fuzzy file, buffer, mru, tag, etc finder.
+" Fuzzy file, buffer, mru, tag, etc finder.
+Plugin 'ctrlpvim/ctrlp.vim'
 map <c-p> :CtrlP<CR>
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tar.gz
+let g:ctrlp_working_path_mode = 'ra'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tar.gz     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.tar.gz,*.exe  " Windows
+set wildignore+=*/node_modules/*
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v[\/]\.(git|hg|svn)$',
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'some_bad_symbolic_links',
   \ }
 
-" Plugin 'tacahiroy/ctrlp-funky'            " A simple function navigator for ctrlp.vim
-" Plugin 'dyng/ctrlsf.vim'                  " An ack.vim alternative mimics Ctrl-Shift-F on Sublime Text 2
-" Plugin 'rking/ag.vim'                     " Vim plugin for the_silver_searcher, 'ag', a replacement for the Perl module / CLI script 'ack'
-" Plugin 'mileszs/ack.vim'                  " Vim plugin for the Perl module / CLI script 'ack'
-" Plugin 'ggVGc/vim-fuzzysearch'            " Fuzzy pattern building, in any buffer
-" Plugin 'Shougo/unite.vim'                 " Unite and create user interfaces
+" Helps you win at grep.
+Plugin 'mhinz/vim-grepper'
 
+" A simple function navigator for ctrlp.vim
+" Plugin 'tacahiroy/ctrlp-funky'
 
-Plugin 'Lokaltog/vim-easymotion'            " Vim motions on speed!
-Plugin 'justinmk/vim-sneak'                 " The missing motion for Vim
+" An ack.vim alternative mimics Ctrl-Shift-F on Sublime Text 2
+" Plugin 'dyng/ctrlsf.vim'
 
-Plugin 'SirVer/ultisnips'                   " 快速插入自定义的代码片段
-Plugin 'msanders/snipmate.vim'              " some of TextMate's snippets features in Vim.
+" Vim plugin for the_silver_searcher, 'ag', a replacement for the Perl module / CLI script 'ack'
+" Plugin 'rking/ag.vim'
 
-Plugin 'scrooloose/syntastic'               " 语法检查引擎
+" Vim plugin for the Perl module / CLI script 'ack'
+" Plugin 'mileszs/ack.vim'
+
+" Fuzzy pattern building, in any buffer
+" Plugin 'ggVGc/vim-fuzzysearch'
+
+" Unite and create user interfaces
+" Plugin 'Shougo/unite.vim'
+
+" Vim motions on speed!
+Plugin 'Lokaltog/vim-easymotion'
+
+" The missing motion for Vim
+Plugin 'justinmk/vim-sneak'
+
+" 快速插入自定义的代码片段
+Plugin 'SirVer/ultisnips'
+" some of TextMate's snippets features in Vim.
+Plugin 'msanders/snipmate.vim'
+
+" 语法检查引擎
+Plugin 'scrooloose/syntastic'
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -377,7 +383,8 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['eslint']
 " A. Vim provides several built-in commands for this. See :help :lnext and :help :lprevious.
 
-Plugin 'scrooloose/nerdcommenter'           " 快速批量注释
+" 快速批量注释
+Plugin 'scrooloose/nerdcommenter'
 " [count]<leader>cc |NERDComComment|
 " Comment out the current line or text selected in visual mode.
 
@@ -418,44 +425,57 @@ Plugin 'scrooloose/nerdcommenter'           " 快速批量注释
 " [count]<leader>cu |NERDComUncommentLine|
 " Uncomments the selected line(s).
 
-Plugin 'tpope/vim-commentary'               " commentary.vim: comment stuff out
+" commentary.vim: comment stuff out
+Plugin 'tpope/vim-commentary'
 " Comment stuff out.
 " Use gcc to comment out a line (takes a count), gc to comment out the target of a motion (for example, gcap to comment out a paragraph), gc in visual mode to comment out the selection, and gc in operator pending mode to target a comment.
 " You can also use it as a command, either with a range like :7,17Commentary, or as part of a :global invocation like with :g/TODO/Commentary. That's it.
 " I wrote this because 5 years after Vim added support for mapping an operator, I still couldn't find a commenting plugin that leveraged that feature (I overlooked tcomment.vim). Striving for minimalism, it weighs in at under 100 lines of code.
 " Oh, and it uncomments, too. The above maps actually toggle, and gcgc uncomments a set of adjacent commented lines.
 
-Plugin 'godlygeek/tabular'                  " Vim script for text filtering and alignment
+" Vim script for text filtering and alignment
+Plugin 'godlygeek/tabular'
 
-Plugin 'vim-scripts/TaskList.vim'           " Eclipse like task list :TaskList
+" Eclipse like task list :TaskList
+Plugin 'vim-scripts/TaskList.vim'
 
-Plugin 'bronson/vim-trailing-whitespace'    " Highlights trailing whitespace in red and provides :FixWhitespace to fix it.
-Plugin 'szw/vim-maximizer'                  " Maximizes and restores the current window in Vim.  shortcut F3
+" Highlights trailing whitespace in red and provides :FixWhitespace to fix it.
+Plugin 'bronson/vim-trailing-whitespace'
+
+" Maximizes and restores the current window in Vim.  shortcut F3
+Plugin 'szw/vim-maximizer'
 nnoremap <silent><F3> :MaximizerToggle<CR>
 vnoremap <silent><F3> :MaximizerToggle<CR>gv
 inoremap <silent><F3> <C-o>:MaximizerToggle<CR>
 
-" Plugin 'chrisbra/SudoEdit.vim'       " Edit files using sudo/su
+" Edit files using sudo/su
+" Plugin 'chrisbra/SudoEdit.vim'
 
-Plugin 'mhinz/vim-signify'           " Show a diff via Vim sign column.
+" Show a diff via Vim sign column.
+Plugin 'mhinz/vim-signify'
 
-Plugin 'airblade/vim-gitgutter'       " A Vim plugin which shows a git diff in the gutter (sign column) and stages/reverts hunks. 
+" A Vim plugin which shows a git diff in the gutter (sign column) and stages/reverts hunks.
+Plugin 'airblade/vim-gitgutter'
 
-Plugin 'tpope/vim-fugitive'         " Git wrapper inside Vim
+" Git wrapper inside Vim
+Plugin 'tpope/vim-fugitive'
 
-
-Plugin 'mhinz/vim-startify'          " The fancy start screen for Vim.
+" The fancy start screen for Vim.
+Plugin 'mhinz/vim-startify'
 nnoremap <leader>st  :Startify<cr>
 
-Plugin 'terryma/vim-multiple-cursors'       " 多光标批量操作
+" 多光标批量操作
+Plugin 'terryma/vim-multiple-cursors'
 
-"Plugin 'Valloric/YouCompleteMe'            " A code-completion engine for Vim
+" A code-completion engine for Vim
+" Plugin 'Valloric/YouCompleteMe'
+
 "let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 "let g:ycm_collect_identifiers_from_tags_files = 1
 "let g:ycm_seed_identifiers_with_syntax = 1
 "let g:ycm_confirm_extra_conf = 0
 
-Plugin 'plasticboy/vim-markdown'            " Markdown
+Plugin 'plasticboy/vim-markdown'
 
 " Node.js plugins
 Plugin 'moll/vim-node'
@@ -494,7 +514,6 @@ Plugin 'chriskempson/vim-tomorrow-theme'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'tomasr/molokai'
 Plugin 'goatslacker/mango.vim'
-
 
 call vundle#end()
 filetype plugin indent on

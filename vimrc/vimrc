@@ -163,7 +163,7 @@ set ruler                           " 打开状态栏标尺
 set et                              "
 set t_Co=256                        "
 set background=dark
-set guifont=Consolas:h10:cANSI
+set guifont=Consolas:h12:cANSI
 
 set mouse-=a                        " 是否激活鼠标操作
 

@@ -1,0 +1,621 @@
+" .vimrc
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" KeyMap
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set mapleader
+let mapleader = ","
+let g:mapleader = ","
+nnoremap ; :
+nnoremap <leader>' '
+nnoremap ' "
+
+map <F5> :NERDTreeMirrorOpen<CR>
+map <F5> :NERDTreeToggle<CR>
+map <F6> :TagbarToggle<CR>
+map <F8> :IndentLinesToggle<CR>
+map <F9> :noh<CR>
+
+" 窗口跳转
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" use Ctrl+[l|n|p|c] to list|next|previous|jump to count the result
+map <C-x>l <ESC>:cl<CR>
+map <C-x>n <ESC>:cn<CR>
+map <C-x>p <ESC>:cp<CR>
+map <C-x>c <ESC>:cc<CR>
+
+" Fast saving
+nmap <silent> <leader>ww :w<cr>
+nmap <silent> <leader>wf :w!<cr>
+
+" Fast redraw   重绘屏幕
+nmap <silent> <leader>rr :redraw!<cr>
+
+" Tab操作快捷方式!
+map <leader>tn :tabnext<cr>
+map <leader>tp :tabprevious<cr>
+map <leader>td :tabnew<cr>
+map <leader>te :tabedit<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove<cr>
+try
+  set switchbuf=useopen
+  set stal=1
+catch
+endtry
+
+" 错误跳转
+map <leader>lp :lprevious<cr>
+map <leader>ll :lnext<cr>
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Environment
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set helplang=cn
+let helptags = $VIMFILES.'/doc'
+let $VIMFILES = $HOME.'/.vim'
+let $VIMRCFILES = $HOME.'/.vimrc'
+autocmd bufwritepost .vimrc source $VIMRCFILES
+
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,ucs-bom,cp936,gb18030,gbk2312,gbk,big5,euc-jp,euc-kr,latin1
+let $LANG = 'zh_CN.UTF-8'
+set langmenu=zh_CN
+set imcmdline
+
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+source $VIMRUNTIME/vimrc_example.vim
+
+if has("win32")
+    set termencoding=chinese
+    " source $VIMRUNTIME/mswin.vim
+    behave mswin
+    language message zh_CN.UTF-8
+endif
+
+if has("gui_running")
+    set background=light
+    " au GUIEnter * simalt ~x 	" 窗口启动时自动最大化
+    " winpos 60 60            	" 指定窗口出现的位置，坐标原点在屏幕左上角
+    set lines=40 columns=160 	" 指定窗口大小，lines为高度，columns为宽度
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=L
+    set guioptions-=r
+    set guioptions-=b
+    set showtabline=0
+endif
+
+autocmd BufWritePre *.js :%s/\s\+$//e
+autocmd BufWritePre *.rb :%s/\s\+$//e
+autocmd BufRead,BufNewFile *.ejs    set filetype=html
+autocmd BufRead,BufNewFile *.js     set filetype=javascript
+
+autocmd FileType python,shell   set commentstring=#\ %s
+autocmd FileType javascript     set ts=2 sts=2 sw=2 et
+autocmd FileType javascript     set textwidth=120 colorcolumn=+1
+autocmd FileType javascript     noremap  :call JsBeautify()
+autocmd FileType html           noremap  :call HtmlBeautify()
+autocmd FileType css            noremap  :call CSSBeautify()
+
+set undofile
+set undodir=$VIMFILES/\_undodir
+set undolevels=1000
+
+" Store swap files in fixed location, not current directory.
+set dir=~/.vimswap//,/var/tmp//,/tmp//,.
+
+" Save your backups to a less annoying place than the current directory.
+" If you have .vim-backup in the current directory, it'll use that.
+" Otherwise it saves it to ~/.vim/backup or . if all else fails.
+if isdirectory($HOME . '/.vim/backup') == 0
+  :silent !mkdir -p ~/.vim/backup >/dev/null 2>&1
+endif
+set backupdir-=.
+set backupdir+=.
+set backupdir-=~/
+set backupdir^=~/.vim/backup/
+set backupdir^=./.vim-backup/
+set backup
+
+" Save your swp files to a less annoying place than the current directory.
+" If you have .vim-swap in the current directory, it'll use that.
+" Otherwise it saves it to ~/.vim/swap, ~/tmp or .
+if isdirectory($HOME . '/.vim/swap') == 0
+  :silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
+endif
+set directory=./.vim-swap//
+set directory+=~/.vim/swap//
+set directory+=~/tmp//
+set directory+=.
+
+" viminfo stores the the state of your previous editing session
+set viminfo+=n~/.vim/viminfo
+
+if exists("+undofile")
+  " undofile - This allows you to use undos after exiting and restarting
+  " This, like swap and backups, uses .vim-undo first, then ~/.vim/undo
+  " :help undo-persistence
+  " This is only present in 7.3+
+  if isdirectory($HOME . '/.vim/undo') == 0
+    :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
+  endif
+  set undodir=./.vim-undo//
+  set undodir+=~/.vim/undo//
+  set undofile
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugin Configuration
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let autoInstallVundle=1
+let has_vundle=1
+if autoInstallVundle == 1 && !filereadable($HOME."/.vim/bundle/Vundle.vim/README.md")
+    echo "Installing Vundle..."
+    echo ""
+    silent !mkdir -p $HOME/.vim/bundle
+    silent !git clone https://github.com/gmarik/Vundle.vim $HOME/.vim/bundle/Vundle.vim
+    let has_vundle=0
+endif
+
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" usage: :PluginInstall OR vim +PluginInstall +qall
+Plugin 'gmarik/Vundle.vim'
+
+" A tree explorer plugin for vim.
+Plugin 'scrooloose/nerdtree'
+let NERDTreeMinimalUI=1
+let NERDTreeQuitOnOpen=0
+let NERDTreeDirArrows=1
+let NERDTreeShowBookmarks=1
+let NERDTreeShowHidden=0
+
+" How can I change default arrows?
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+" How can I open a NERDTree automatically when vim starts up if no files were specified?
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" How can I close vim if the only window left open is a NERDTree?
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+    exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+    exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'.  a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
+call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
+
+" NERDTree and tabs together in Vim, painlessly
+Plugin 'jistr/vim-nerdtree-tabs'
+let g:nerdtree_tabs_open_on_gui_startup=1 "(default: 1)
+let g:nerdtree_tabs_open_on_console_startup=0 "(default: 0)
+let g:nerdtree_tabs_no_startup_for_diff=1 "(default: 1)
+let g:nerdtree_tabs_smart_startup_focus=1 "(default: 1)
+let g:nerdtree_tabs_open_on_new_tab=1 "(default: 1)
+let g:nerdtree_tabs_meaningful_tab_names=1 "(default: 1)
+let g:nerdtree_tabs_autoclose=1 "(default: 1)
+let g:nerdtree_tabs_synchronize_view=1 "(default: 1)
+let g:nerdtree_tabs_synchronize_focus=1 "(default: 1)
+let g:nerdtree_tabs_focus_on_files=0 "(default: 0)
+let g:nerdtree_tabs_startup_cd=1 "(default: 1)
+let g:nerdtree_tabs_autofind=1 "default: 0
+
+" A plugin of NERDTree showing git status
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
+
+" Tagbar: a class outline viewer for Vim. better then taglist.
+Plugin 'majutsushi/tagbar'
+let g:tagbar_iconchars = ['▸', '▾']
+" let g:tagbar_ctags_bin
+" autocmd VimEnter * nested :TagbarOpen
+
+" Elegant buffer explorer - takes very little screen space
+Plugin 'fholgado/minibufexpl.vim'
+
+" Powerline is a statusline plugin for vim
+Plugin 'powerline/powerline',{'rtp': 'powerline/bindings/vim/'}
+
+" Miscellaneous auto-load Vim scripts
+" Plugin 'xolox/vim-misc'
+" Automated tag file generation and syntax highlighting of tags in Vim.
+" Plugin 'xolox/vim-easytags'
+" let g:easytags_auto_update = 0
+" let g:easytags_auto_highlight = 0
+" " :UpdateTags
+" " :HighlightTags
+
+" 最近使用文件
+Plugin 'mru.vim'
+map <leader>m :MRU<cr>
+let MRU_Max_Menu_Entries = 20
+let MRU_Max_Submenu_Entries = 20
+let MRU_Window_Height = 15
+
+" vim plugin to interact with tmux
+Plugin 'benmills/vimux'
+let g:VimuxHeight = 30
+nmap <space>p :VimuxPromptCommand<cr>
+nmap <space>q :VimuxCloseRunner<cr>
+nmap <space>l :VimuxRunLastCommand<cr>
+nmap <space>x :VimuxInterruptRunner<cr>
+nmap <space>r :call VimuxRunCommand(runapp)<cr>
+
+"  Seamless navigation between tmux panes and vim splits
+Plugin 'christoomey/vim-tmux-navigator'
+
+" This vim plugin allows toggling bookmarks per line.
+" Plugin 'MattesGroeger/vim-bookmarks'
+
+" Better Rainbow Parentheses
+Plugin 'kien/rainbow_parentheses.vim'
+
+" Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
+Plugin 'Raimondi/delimitMate'
+
+" Vim plugin, insert or delete brackets, parens, quotes in pair
+" Plugin 'jiangmiao/auto-pairs'
+
+" surround.vim: quoting/parenthesizing made simple
+Plugin 'tpope/vim-surround'
+
+" A vim plugin to display the indention levels with thin vertical lines
+Plugin 'Yggdroot/indentLine'
+let g:indentLine_color_term = 239           " Vim
+let g:indentLine_color_gui = '#A4E57E'      " GVim
+let g:indentLine_color_tty_light = 7        " (default: 4)
+let g:indentLine_color_dark = 1             " (default: 2)
+let g:indentLine_concealcursor = 'vc'       " (default 'inc')
+let g:indentLine_conceallevel = 2           " (default 2)
+let g:indentLine_char = '¦'
+let g:indentLine_enabled = 1
+
+" repeat.vim: enable repeating supported plugin maps with '.'
+Plugin 'tpope/vim-repeat'
+
+" A Vim alignment plugin
+Plugin 'junegunn/vim-easy-align'
+
+" Fast and Easy Find and Replace Across Multiple Files
+Plugin 'dkprice/vim-easygrep'
+let g:EasyGrepMode = 2
+let g:EasyGrepCommand = 0                   " Use vimgrep:0, grepprg:1
+let g:EasyGrepRecursive  = 1                " Recursive searching
+let g:EasyGrepIgnoreCase = 1                " not ignorecase:0
+let g:EasyGrepFilesToExclude = "*.bak, *~, cscope.*, *.a, *.o, *.pyc"
+
+" Fuzzy file, buffer, mru, tag, etc finder.
+Plugin 'ctrlpvim/ctrlp.vim'
+map <c-p> :CtrlP<CR>
+let g:ctrlp_working_path_mode = 'ra'
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tar.gz     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.tar.gz,*.exe  " Windows
+set wildignore+=*/node_modules/*
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+" Helps you win at grep.
+Plugin 'mhinz/vim-grepper'
+
+" A simple function navigator for ctrlp.vim
+" Plugin 'tacahiroy/ctrlp-funky'
+
+" An ack.vim alternative mimics Ctrl-Shift-F on Sublime Text 2
+" Plugin 'dyng/ctrlsf.vim'
+
+" Vim plugin for the_silver_searcher, 'ag', a replacement for the Perl module / CLI script 'ack'
+" Plugin 'rking/ag.vim'
+
+" Vim plugin for the Perl module / CLI script 'ack'
+" Plugin 'mileszs/ack.vim'
+
+" Fuzzy pattern building, in any buffer
+" Plugin 'ggVGc/vim-fuzzysearch'
+
+" Unite and create user interfaces
+" Plugin 'Shougo/unite.vim'
+
+" Vim motions on speed!
+Plugin 'Lokaltog/vim-easymotion'
+
+" The missing motion for Vim
+Plugin 'justinmk/vim-sneak'
+
+" 快速插入自定义的代码片段
+Plugin 'SirVer/ultisnips'
+" some of TextMate's snippets features in Vim.
+Plugin 'msanders/snipmate.vim'
+
+" 语法检查引擎
+Plugin 'scrooloose/syntastic'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+" A. Vim provides several built-in commands for this. See :help :lnext and :help :lprevious.
+
+" 快速批量注释
+Plugin 'scrooloose/nerdcommenter'
+" [count]<leader>cc |NERDComComment|
+" Comment out the current line or text selected in visual mode.
+
+" [count]<leader>cn |NERDComNestedComment|
+" Same as <leader>cc but forces nesting.
+
+" [count]<leader>c<space> |NERDComToggleComment|
+" Toggles the comment state of the selected line(s). If the topmost selected line is commented, all selected lines are uncommented and vice versa.
+
+" [count]<leader>cm |NERDComMinimalComment|
+" Comments the given lines using only one set of multipart delimiters.
+
+" [count]<leader>ci |NERDComInvertComment|
+" Toggles the comment state of the selected line(s) individually.
+
+" [count]<leader>cs |NERDComSexyComment|
+" Comments out the selected lines ``sexily''
+
+" [count]<leader>cy |NERDComYankComment|
+" Same as <leader>cc except that the commented line(s) are yanked first.
+
+" <leader>c$ |NERDComEOLComment|
+" Comments the current line from the cursor to the end of line.
+
+" <leader>cA |NERDComAppendComment|
+" Adds comment delimiters to the end of line and goes into insert mode between them.
+
+" |NERDComInsertComment|
+" Adds comment delimiters at the current cursor position and inserts between. Disabled by default.
+
+" <leader>ca |NERDComAltDelim|
+" Switches to the alternative set of delimiters.
+
+" [count]<leader>cl
+" [count]<leader>cb |NERDComAlignedComment|
+" Same as |NERDComComment| except that the delimiters are aligned down the left side (<leader>cl) or both sides (<leader>cb).
+
+" [count]<leader>cu |NERDComUncommentLine|
+" Uncomments the selected line(s).
+
+" commentary.vim: comment stuff out
+Plugin 'tpope/vim-commentary'
+" Comment stuff out.
+" Use gcc to comment out a line (takes a count), gc to comment out the target of a motion (for example, gcap to comment out a paragraph), gc in visual mode to comment out the selection, and gc in operator pending mode to target a comment.
+" You can also use it as a command, either with a range like :7,17Commentary, or as part of a :global invocation like with :g/TODO/Commentary. That's it.
+" I wrote this because 5 years after Vim added support for mapping an operator, I still couldn't find a commenting plugin that leveraged that feature (I overlooked tcomment.vim). Striving for minimalism, it weighs in at under 100 lines of code.
+" Oh, and it uncomments, too. The above maps actually toggle, and gcgc uncomments a set of adjacent commented lines.
+
+" Vim script for text filtering and alignment
+Plugin 'godlygeek/tabular'
+
+" Eclipse like task list :TaskList
+Plugin 'vim-scripts/TaskList.vim'
+
+" Highlights trailing whitespace in red and provides :FixWhitespace to fix it.
+Plugin 'bronson/vim-trailing-whitespace'
+
+" Maximizes and restores the current window in Vim.  shortcut F3
+Plugin 'szw/vim-maximizer'
+nnoremap <silent><F3> :MaximizerToggle<CR>
+vnoremap <silent><F3> :MaximizerToggle<CR>gv
+inoremap <silent><F3> <C-o>:MaximizerToggle<CR>
+
+" Edit files using sudo/su
+" Plugin 'chrisbra/SudoEdit.vim'
+
+" Show a diff via Vim sign column.
+Plugin 'mhinz/vim-signify'
+
+" A Vim plugin which shows a git diff in the gutter (sign column) and stages/reverts hunks.
+Plugin 'airblade/vim-gitgutter'
+
+" Git wrapper inside Vim
+Plugin 'tpope/vim-fugitive'
+
+" The fancy start screen for Vim.
+Plugin 'mhinz/vim-startify'
+nnoremap <leader>st  :Startify<cr>
+
+" 多光标批量操作
+Plugin 'terryma/vim-multiple-cursors'
+
+" A code-completion engine for Vim
+" Plugin 'Valloric/YouCompleteMe'
+
+"let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+"let g:ycm_collect_identifiers_from_tags_files = 1
+"let g:ycm_seed_identifiers_with_syntax = 1
+"let g:ycm_confirm_extra_conf = 0
+
+Plugin 'plasticboy/vim-markdown'
+
+" Node.js plugins
+Plugin 'moll/vim-node'
+Plugin 'jamescarr/snipmate-nodejs'
+Plugin 'sidorares/node-vim-debugger'
+
+" SQL
+Plugin 'vim-scripts/SQLComplete.vim'
+
+" JavaScript
+Plugin 'pangloss/vim-javascript'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'walm/jshint.vim'
+Plugin 'einars/js-beautify'
+Plugin 'maksimr/vim-jsbeautify'
+
+Plugin 'mxw/vim-jsx'
+
+" CoffeeScript
+Plugin 'kchmck/vim-coffee-script'
+
+" Stylus
+Plugin 'wavded/vim-stylus'
+
+" Vim plugins for HTML and CSS hi-speedcoding.
+Plugin 'mattn/emmet-vim'
+Plugin 'gorodinskiy/vim-coloresque'
+Plugin 'Valloric/MatchTagAlways'
+
+" Must acheand handle bars mode for vim
+Plugin 'mustache/vim-mustache-handlebars'
+
+" Theme plugin
+Plugin 'morhetz/gruvbox'
+Plugin 'chriskempson/vim-tomorrow-theme'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tomasr/molokai'
+Plugin 'goatslacker/mango.vim'
+
+call vundle#end()
+filetype plugin indent on
+
+if autoInstallVundle == 1 && has_vundle == 0
+    :silent! PluginInstall
+    :qa
+endif
+
+" color gruvbox
+" colorscheme default         " 设定配色方案
+" colorscheme desert
+" colorscheme Tomorrow-Night-Eighties
+colorscheme molokai
+" colorscheme solarized
+" let g:solarized_termcolors=256
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Setting Configuration
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+syntax on                           " 自动语法高亮
+set nocompatible                    " 关闭 vi 兼容模式
+set number                          " 显示行号
+set cursorline                      " 突出显示当前行
+set ruler                           " 打开状态栏标尺
+set et                              "
+set t_Co=256                        "
+set background=dark
+set guifont=Consolas:h13:cANSI
+
+set mouse-=a                        " 是否激活鼠标操作
+
+set autochdir                       " 自动切换当前目录为当前文件所在的目录
+set nobackup                        " 覆盖文件时不备份
+set backupcopy=yes                  " 设置备份时的行为为覆盖
+
+set ignorecase smartcase            " 搜索时忽略大小写，但在有一个或以上大写字母时仍保持对大小写敏感
+set nowrapscan                      " 禁止在搜索到文件两端时重新搜索
+set incsearch                       " 输入搜索内容时就显示搜索结果
+set hlsearch                        " 搜索时高亮显示被找到的文本
+
+set noerrorbells                    " 关闭错误信息响铃
+set novisualbell                    " 关闭使用可视响铃代替呼叫
+set t_vb=                           " 置空错误铃声的终端代码
+
+set showmatch                       " 插入括号时，短暂地跳转到匹配的对应括号
+set matchtime=2                     " 短暂跳转到匹配括号的时间
+
+set magic                           " 设置魔术
+set hidden                          " 允许在有未保存的修改时切换缓冲区，此时的修改由 vim 负责保存
+set autowrite                       " 切换Buffers时，自动保存文件
+set autoread                        " Set to auto read when a file is changed from the outside
+
+set autoindent                      " 自动缩进
+set cindent                         "
+set smartindent                     " 开启新行时使用智能自动缩进
+
+set backspace=indent,eol,start         " 不设定在插入状态无法用退格键和 Delete 键删除回车符
+
+set pastetoggle=<F11>               " 不缩进粘贴 激活/取消 paste模式
+set foldenable                      " 允许代码折叠
+set foldmethod=syntax               " 根据代码缩进折叠
+set foldlevel=100                   " 不要自动缩进（但可以手动缩进）
+set foldopen -=search               " 搜索时，不需要打开已被折叠的代码
+set foldopen -=undo                 " 运行“撤销”命令的时不要打开折叠
+
+set shiftwidth=4                    " 设定 << 和 >> 命令移动时的宽度为 4
+set softtabstop=4                   " 使得按退格键时可以一次删掉 4 个空格
+set cmdheight=1                     " 设定命令行的行数为 1
+set tabstop=4                       " 设定 tab 长度为 4
+set foldcolumn=0                    " 设置折叠区域的宽度
+set foldclose=all                   " 设置为自动关闭折叠
+set laststatus=2                    " 显示状态栏 (默认值为 1, 无法显示状态栏)
+
+set history=1000                    " Sets how many lines of history VIM har to remember
+set scrolloff=10                    " Minimal number of screen lines to keep above/below the cursor
+set whichwrap+=<,>                  " Backspace and cursor keys wrap to
+set mat=2                           " How many tenths of a second to blink
+set report=0                        " Tell us when anything is changed via :...
+set completeopt=longest,menu        "
+set wildmenu                        " Turn on WiLd menu
+set list                            " What to show while
+set shortmess=atI                   " Shorten messages to avoid 'press a key' prompt
+" set fillchars=vert:\ ,stl:\ ,stlnc:\
+set listchars=tab:\ \ ,trail:\ ,extends:>,precedes:<,eol:\ 
+set diffopt+=vertical       " cmap @vd vertical diffsplit
+set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ %c:%l/%L%)\
+
+" tags files CTRL-] uses
+set tags+=$VIMRUNTIME/doc/tags
+set tags+=$VIMFILES/doc/tags
+set tags+=~/.vim/tags/systags
+set tags+=~/.vim/tags/cpptags
+set tags+=../tags
+set tags+=./tags
+
+" ctags -I __THROW --file-scope=yes --langmap=c:+.h --languages=c,c++
+" --links=yes --c-kinds=+p -R -f ~/.vim/tags/systags /usr/include /usr/local/include
+
+" ctags -R --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ /sorcepath
+"TAGFILES = "libstdc++.tag = http://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen"
+map <F2> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+

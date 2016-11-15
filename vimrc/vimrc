@@ -370,14 +370,6 @@ let g:indentLine_enabled = 1
 " Highlights trailing whitespace in red and provides :FixWhitespace to fix it.
 Plugin 'bronson/vim-trailing-whitespace'
 
-" Fast and Easy Find and Replace Across Multiple Files
-Plugin 'dkprice/vim-easygrep'
-let g:EasyGrepMode = 2
-let g:EasyGrepCommand = 0                   " Use vimgrep:0, grepprg:1
-let g:EasyGrepRecursive  = 1                " Recursive searching
-let g:EasyGrepIgnoreCase = 1                " not ignorecase:0
-let g:EasyGrepFilesToExclude = "*.bak, *~, cscope.*, *.a, *.o, *.pyc"
-
 " Fuzzy file, buffer, mru, tag, etc finder.
 Plugin 'ctrlpvim/ctrlp.vim'
 map <c-p> :CtrlP<CR>
@@ -392,26 +384,28 @@ let g:ctrlp_custom_ignore = {
   \ 'link': 'some_bad_symbolic_links',
   \ }
 
+" A simple function navigator for ctrlp.vim
+Plugin 'tacahiroy/ctrlp-funky'
+
+" Fast and Easy Find and Replace Across Multiple Files
+Plugin 'dkprice/vim-easygrep'
+let g:EasyGrepMode = 2
+let g:EasyGrepCommand = 0                   " Use vimgrep:0, grepprg:1
+let g:EasyGrepRecursive  = 1                " Recursive searching
+let g:EasyGrepIgnoreCase = 1                " not ignorecase:0
+let g:EasyGrepFilesToExclude = "*.bak, *~, cscope.*, *.a, *.o, *.pyc"
+
 " Helps you win at grep.
 Plugin 'mhinz/vim-grepper'
 
-" A simple function navigator for ctrlp.vim
-" Plugin 'tacahiroy/ctrlp-funky'
-
 " An ack.vim alternative mimics Ctrl-Shift-F on Sublime Text 2
-" Plugin 'dyng/ctrlsf.vim'
-
-" Vim plugin for the_silver_searcher, 'ag', a replacement for the Perl module / CLI script 'ack'
-" Plugin 'rking/ag.vim'
+Plugin 'dyng/ctrlsf.vim'
 
 " Vim plugin for the Perl module / CLI script 'ack'
-" Plugin 'mileszs/ack.vim'
-
-" Fuzzy pattern building, in any buffer
-" Plugin 'ggVGc/vim-fuzzysearch'
+Plugin 'mileszs/ack.vim'
 
 " Unite and create user interfaces
-" Plugin 'Shougo/unite.vim'
+Plugin 'Shougo/unite.vim'
 
 " Vim motions on speed!
 Plugin 'Lokaltog/vim-easymotion'
@@ -451,7 +445,6 @@ Plugin 'sidorares/node-vim-debugger'
 " JavaScript
 Plugin 'pangloss/vim-javascript'
 Plugin 'jelera/vim-javascript-syntax'
-Plugin 'walm/jshint.vim'
 Plugin 'einars/js-beautify'
 Plugin 'maksimr/vim-jsbeautify'
 

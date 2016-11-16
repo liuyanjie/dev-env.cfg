@@ -259,6 +259,9 @@ call vundle#begin()
 " usage: :PluginInstall OR vim +PluginInstall +qall
 Plugin 'gmarik/Vundle.vim'
 
+" EditorConfig plugin for Vim
+Plugin 'editorconfig/editorconfig-vim'
+
 " A tree explorer plugin for vim.
 Plugin 'scrooloose/nerdtree'
 let NERDTreeMinimalUI=1
@@ -335,9 +338,6 @@ Plugin 'kien/rainbow_parentheses.vim'
 " Vim plugin, provides insert mode auto-completion for quotes, parens, brackets, etc.
 Plugin 'Raimondi/delimitMate'
 
-" Vim plugin, insert or delete brackets, parens, quotes in pair
-" Plugin 'jiangmiao/auto-pairs'
-
 " surround.vim: quoting/parenthesizing made simple
 Plugin 'tpope/vim-surround'
 
@@ -388,6 +388,7 @@ let g:ctrlp_custom_ignore = {
 Plugin 'tacahiroy/ctrlp-funky'
 
 " Fast and Easy Find and Replace Across Multiple Files
+" <Leader>vv  - Grep for the word under the cursor, match all occurences,
 Plugin 'dkprice/vim-easygrep'
 let g:EasyGrepMode = 2
 let g:EasyGrepCommand = 0                   " Use vimgrep:0, grepprg:1
@@ -399,72 +400,63 @@ let g:EasyGrepFilesToExclude = "*.bak, *~, cscope.*, *.a, *.o, *.pyc"
 Plugin 'mhinz/vim-grepper'
 
 " An ack.vim alternative mimics Ctrl-Shift-F on Sublime Text 2
+" :CtrlSF [pattern]
 Plugin 'dyng/ctrlsf.vim'
 
 " Vim plugin for the Perl module / CLI script 'ack'
+" sudo apt install ack-grep
 Plugin 'mileszs/ack.vim'
 
 " Unite and create user interfaces
 Plugin 'Shougo/unite.vim'
 
 " Vim motions on speed!
+" Type <Leader><Leader>w(<Plug>(easymotion-w)) to trigger the word motion w
+" Type <Leader><Leader>fo, and all "o" characters are highlighted
 Plugin 'Lokaltog/vim-easymotion'
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " The missing motion for Vim
+" Sneak is invoked with s followed by exactly two characters: s{char}{char}
 Plugin 'justinmk/vim-sneak'
-
-" commentary.vim: comment stuff out
-Plugin 'tpope/vim-commentary'
 
 " Vim script for text filtering and alignment
 Plugin 'godlygeek/tabular'
 
 " Show a diff via Vim sign column.
-Plugin 'mhinz/vim-signify'
+" NOTE: If git is the only version control system you use, I suggest having a look at vim-gitgutter.
+" Plugin 'mhinz/vim-signify'
 
 " A Vim plugin which shows a git diff in the gutter (sign column) and stages/reverts hunks.
 Plugin 'airblade/vim-gitgutter'
 
-" Git wrapper inside Vim
-Plugin 'tpope/vim-fugitive'
-
-" Markdown Vim Mode
-Plugin 'plasticboy/vim-markdown'
-
-" SQLComplete is a SQL code completion system using the omnifunc framework
-Plugin 'vim-scripts/SQLComplete.vim'
-
-" CoffeeScript support for vim
-Plugin 'kchmck/vim-coffee-script'
+" A solid language pack for Vim.
+Plugin 'sheerun/vim-polyglot'
 
 " Node.js plugins
 Plugin 'moll/vim-node'
-Plugin 'jamescarr/snipmate-nodejs'
-Plugin 'sidorares/node-vim-debugger'
 
-" JavaScript
-Plugin 'pangloss/vim-javascript'
-Plugin 'jelera/vim-javascript-syntax'
+" Beautifier for javascript
 Plugin 'einars/js-beautify'
-Plugin 'maksimr/vim-jsbeautify'
-
-" React JSX syntax highlighting and indenting for vim.
-Plugin 'mxw/vim-jsx'
 
 " Vim plugins for HTML and CSS hi-speedcoding. emmet for vim
 Plugin 'mattn/emmet-vim'
 
-" Syntax Highlighting for Stylus
-Plugin 'wavded/vim-stylus'
-
 " css/less/sass/html color preview for vim
 Plugin 'gko/vim-coloresque'
-
-" A Vim plugin that always highlights the enclosing html/xml tags
-Plugin 'Valloric/MatchTagAlways'
-
-" mustache and handlebars mode for vim
-Plugin 'mustache/vim-mustache-handlebars'
 
 " Syntax checking hacks for vim
 Plugin 'scrooloose/syntastic'
@@ -502,11 +494,11 @@ Plugin 'scrooloose/nerdcommenter'
 " let g:ycm_confirm_extra_conf = 0
 
 " Theme plugin
-Plugin 'morhetz/gruvbox'
-Plugin 'chriskempson/vim-tomorrow-theme'
-Plugin 'altercation/vim-colors-solarized'
+" Plugin 'morhetz/gruvbox'
+" Plugin 'chriskempson/vim-tomorrow-theme'
+" Plugin 'altercation/vim-colors-solarized'
+" Plugin 'goatslacker/mango.vim'
 Plugin 'tomasr/molokai'
-Plugin 'goatslacker/mango.vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -520,6 +512,6 @@ endif
 " colorscheme default         " 设定配色方案
 " colorscheme desert
 " colorscheme Tomorrow-Night-Eighties
-colorscheme solarized
+" colorscheme solarized
 colorscheme molokai
 let g:solarized_termcolors=256

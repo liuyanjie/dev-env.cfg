@@ -67,6 +67,8 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 source $VIMRUNTIME/vimrc_example.vim
 
+set mouse-=a
+
 set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
@@ -94,17 +96,6 @@ if has("gui_running")
     " au GUIEnter * simalt ~x 	" 窗口启动时自动最大化
     " winpos 60 60            	" 指定窗口出现的位置，坐标原点在屏幕左上角
 endif
-
-autocmd BufWritePre         *.js    :%s/\s\+$//e
-autocmd BufWritePre         *.rb    :%s/\s\+$//e
-autocmd BufRead,BufNewFile  *.ejs   set filetype=html
-autocmd BufRead,BufNewFile  *.js    set filetype=javascript
-autocmd FileType python,shell       set commentstring=#\ %s
-autocmd FileType javascript         set ts=2 sts=2 sw=2 et
-autocmd FileType javascript         set textwidth=120 colorcolumn=+1
-autocmd FileType javascript         noremap  :call JsBeautify()
-autocmd FileType html               noremap  :call HtmlBeautify()
-autocmd FileType css                noremap  :call CSSBeautify()
 
 set undofile
 set undodir=$VIMFILES/\_undodir
@@ -155,17 +146,17 @@ endif
 
 " Setting Configuration
 
-syntax on                           " 自动语法高亮
+syntax on                           " 语法高亮
 set nocompatible                    " 关闭 vi 兼容模式
 set number                          " 显示行号
 set cursorline                      " 突出显示当前行
 set ruler                           " 打开状态栏标尺
-set et                              "
-set t_Co=256                        "
+set et                              " 键入tab时使用空格
 set background=dark
 set guifont=Consolas:h12:cANSI
 
-set mouse-=a                        " 是否激活鼠标操作
+set t_Co=256                        " 终端颜色数量
+set t_vb=                           " 终端置空错误铃声
 
 set autochdir                       " 自动切换当前目录为当前文件所在的目录
 set nobackup                        " 覆盖文件时不备份
@@ -178,49 +169,48 @@ set hlsearch                        " 搜索时高亮显示被找到的文本
 
 set noerrorbells                    " 关闭错误信息响铃
 set novisualbell                    " 关闭使用可视响铃代替呼叫
-set t_vb=                           " 置空错误铃声的终端代码
 
 set showmatch                       " 插入括号时，短暂地跳转到匹配的对应括号
-set matchtime=2                     " 短暂跳转到匹配括号的时间
+set matchtime=2                     " 短暂跳转到匹配括号的时间，显示配对括号的十分之一秒数
 
-set magic                           " 设置魔术
 set hidden                          " 允许在有未保存的修改时切换缓冲区，此时的修改由 vim 负责保存
-set autowrite                       " 切换Buffers时，自动保存文件
-set autoread                        " Set to auto read when a file is changed from the outside
+set autoread                        " 自动重新读取当文件在外部被修改的时候
+set autowrite                       " 自动保存文件在适当的时候
 
-set autoindent                      " 自动缩进
-set cindent                         "
+set autoindent                      " 开启新行时(o|O)，自动缩进
+set cindent                         " C语言自动缩进
 set smartindent                     " 开启新行时使用智能自动缩进
 
-set backspace=indent,eol,start         " 不设定在插入状态无法用退格键和 Delete 键删除回车符
+set backspace=indent,eol,start      " 不设定在插入状态无法用退格键和 Delete 键删除回车符
 
 set pastetoggle=<F11>               " 不缩进粘贴 激活/取消 paste模式
+
 set foldenable                      " 允许代码折叠
 set foldmethod=syntax               " 根据代码缩进折叠
 set foldlevel=100                   " 不要自动缩进（但可以手动缩进）
-set foldopen -=search               " 搜索时，不需要打开已被折叠的代码
-set foldopen -=undo                 " 运行“撤销”命令的时不要打开折叠
+set foldopen-=search                " 搜索时，不需要打开已被折叠的代码
+set foldopen-=undo                  " 运行“撤销”命令的时不要打开折叠
+set foldcolumn=0                    " 设置折叠区域的宽度
+set foldclose=all                   " 设置为自动关闭折叠
 
 set shiftwidth=4                    " 设定 << 和 >> 命令移动时的宽度为 4
 set softtabstop=4                   " 使得按退格键时可以一次删掉 4 个空格
-set cmdheight=1                     " 设定命令行的行数为 1
 set tabstop=4                       " 设定 tab 长度为 4
-set foldcolumn=0                    " 设置折叠区域的宽度
-set foldclose=all                   " 设置为自动关闭折叠
 set laststatus=2                    " 显示状态栏 (默认值为 1, 无法显示状态栏)
+set cmdheight=1                     " 设定命令行的行数为 1
 
-set history=1000                    " Sets how many lines of history VIM har to remember
-set scrolloff=10                    " Minimal number of screen lines to keep above/below the cursor
-set whichwrap+=<,>                  " Backspace and cursor keys wrap to
-set mat=2                           " How many tenths of a second to blink
-set report=0                        " Tell us when anything is changed via :...
-set completeopt=longest,menu        "
-set wildmenu                        " Turn on WiLd menu
-set list                            " What to show while
-set shortmess=atI                   " Shorten messages to avoid 'press a key' prompt
-" set fillchars=vert:\ ,stl:\ ,stlnc:\
+set history=1000                    " :命令历史和/?搜索模式历史记录，vim默认20
+set scrolloff=10                    " 光标上下两侧保留的最小屏幕数
+set report=0                        " 报告改变行数的阈值
+set wildmenu                        " 打开时，命令行以增强模式补全
+set whichwrap+=<,>,[,]              " 行首和行为跳到上一行行为或下一行行首
+set diffopt=filler,context:4        " diff模式的设置
+
+set list
 set listchars=tab:\ \ ,trail:\ ,extends:>,precedes:<,eol:\ 
-set diffopt+=vertical       " cmap @vd vertical diffsplit
+
+set shortmess=atI
+
 set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ %c:%l/%L%)\
 
 " tags files CTRL-] uses
@@ -237,6 +227,10 @@ set tags+=./tags
 " ctags -R --c++-kinds=+p --fields=+iaS --extra=+q --language-force=C++ /sorcepath
 "TAGFILES = "libstdc++.tag = http://gcc.gnu.org/onlinedocs/libstdc++/latest-doxygen"
 map <F2> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+
+autocmd BufRead,BufNewFile  *.ejs   set filetype=html
+autocmd FileType javascript         set ts=2 sts=2 sw=2 et
+autocmd FileType javascript         set textwidth=80 colorcolumn=+1
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -473,7 +467,7 @@ let g:syntastic_javascript_checkers = ['eslint']
 Plugin 'scrooloose/nerdcommenter'
 " [count]<leader>cc |NERDComComment|              " Comment out the current line or text selected in visual mode.
 " [count]<leader>cn |NERDComNestedComment|        " Same as <leader>cc but forces nesting.
-" [count]<leader>c<space> |NERDComToggleComment|  " Toggles the comment state of the selected line(s). If the topmost selected line is commented, all selected lines are uncommented and vice versa.
+" [count]<leader>c<space> |NERDComToggleComment|  " Toggles the comment state of the selected line(s).
 " [count]<leader>cm |NERDComMinimalComment|       " Comments the given lines using only one set of multipart delimiters.
 " [count]<leader>ci |NERDComInvertComment|        " Toggles the comment state of the selected line(s) individually.
 " [count]<leader>cs |NERDComSexyComment|          " Comments out the selected lines ``sexily''

@@ -349,12 +349,16 @@ let g:indentLine_enabled = 1
 Plugin 'bronson/vim-trailing-whitespace'
 
 " Fuzzy file, buffer, mru, tag, etc finder.
+" https://robots.thoughtbot.com/replacing-nerdtree-with-ctrl-p
 Plugin 'ctrlpvim/ctrlp.vim'
 map <c-p> :CtrlP<CR>
 let g:ctrlp_working_path_mode = 'ra'
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.tar.gz     " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.tar.gz,*.exe  " Windows
 set wildignore+=*/node_modules/*
+set wildignore+=*\\node_modules\\*
+set wildignore+=*/dist/*
+set wildignore+=*\\dist\\*
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',

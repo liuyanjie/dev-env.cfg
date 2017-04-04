@@ -68,3 +68,13 @@ sudo apt-get install google-chrome-stable
 # sudo apt-get install google-chrome-unstable
 ```
 
+
+### Mosh
+
+* https://github.com/shadowsocks/ShadowsocksX-NG
+* http://blog.mattgauger.com/blog/2012/04/21/mosh-ssh-tunnels-tmux/
+* https://blog.filippo.io/my-remote-shell-session-setup/
+* https://monda.hu/2013/01/26/how-to-rule-remote-shell-sessions-with-tmux-and-mosh
+* http://freemind.pluskid.org/misc/mosh-the-mobile-shell/
+* https://mosh.org/
+

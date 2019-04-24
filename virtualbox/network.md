@@ -13,6 +13,8 @@
 3. Internal 内部网络模式
 4. Host-only Adapter 主机模式
 
+https://www.jianshu.com/p/0537b056790b
+
 ### 第一种 NAT模式
 
 NAT模式是最简单的实现虚拟机上网的方式，你可以这样理解：Vhost访问网络的所有数据都是由主机提供的，vhost并不真实存在于网络中，主机与网络中的任何机器都不能查看和访问到Vhost的存在。

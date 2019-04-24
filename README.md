@@ -1,11 +1,30 @@
 dev-env.cfg
 ===========
 
+
+### zsh
+
+```sh
+apt install zsh
+```
+
+### oh-my-zsh
+
+```sh
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+```
+
 ### install
+
+* git
+
+```sh
+sudo apt install git
+```
 
 * vim
 
-```bash
+```sh
 git clone https://github.com/liuyanjie/dev-env.cfg.git \
     && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim \
     && ln -s ${PWD}/dev-env.cfg/vimrc/vimrc ~/.vimrc \
@@ -21,7 +40,7 @@ ln -s ${PWD}/dev-env.cfg/tmuxrc/tmux.conf ~/.tmux.conf
 * powerline
 
 ```sh
-sudo apt install powerline
+sudo apt install powerline python-pip
 pip install powerline-status
 pip show powerline-status
 
@@ -47,14 +66,6 @@ cd fonts
 **注意：对于ASCII fonts和non-ASCII fonts都需要选择for powerline的字体。**
 
 Refs:
-
-
-### zsh
-
-```sh
-sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-```
-
 
 ### Chrome
 

@@ -137,7 +137,7 @@ set cursorcolumn                    " 突出显示当前列
 set ruler                           " 打开状态栏标尺
 set et                              " 键入tab时使用空格
 set background=dark
-set guifont=Consolas:h12:cANSI
+set guifont=Consolas:h18:cANSI
 
 set t_Co=256                        " 终端颜色数量
 set t_vb=                           " 终端置空错误铃声
@@ -472,11 +472,16 @@ Plugin 'scrooloose/nerdcommenter'
 " [count]<leader>cu |NERDComUncommentLine|        " Uncomments the selected line(s).
 
 " A code-completion engine for Vim
-" Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 " let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-" let g:ycm_collect_identifiers_from_tags_files = 1
-" let g:ycm_seed_identifiers_with_syntax = 1
-" let g:ycm_confirm_extra_conf = 0
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_confirm_extra_conf = 0
+
+Plugin 'rdnetto/YCM-Generator'
+
+Plugin 'lyuts/vim-rtags'
 
 " Theme plugin
 " Plugin 'morhetz/gruvbox'
